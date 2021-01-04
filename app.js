@@ -6,6 +6,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 const recognition = new SpeechRecognition();
 var voices = window.speechSynthesis.getVoices();
 
+const default1 = ['i did not understand what you said', 'sorry can you say it again please' , ' sorry can you repeat please' , ' i am sorry i dont know what you are talking about']
 
 
 recognition.onstart = function() {
@@ -23,6 +24,7 @@ recognition.onresult = function(){
     const transcript = event.results[current][0].transcript;
     content.textContent = transcript;
     readOutLoud(transcript);
+    // console.log('this is working');
     
 };
 
@@ -37,15 +39,20 @@ btn.addEventListener('click', function (){
 
 function readOutLoud (message){
     const speech = new SpeechSynthesisUtterance();
+    // console.log(speech);
     
     voices = window.speechSynthesis.getVoices();
     // console.log(voices);
     // console.log (voices[1]);
     speech.voice = voices[4];
-    speech.text = message;
+    speech.text = default1[Math.floor(Math.random() * default1.length)];
+    if (message.includes('hello' || 'hi' || 'hai' || 'hey')){
+        const newtext = 'hello i am friday  its nice to meet you';
+        speech.text = newtext;
+    }
     speech.volume = 1;
     speech.rate = 1;
-    // speech.pitch = 0.2;
+    speech.pitch = 1;
 
     window.speechSynthesis.speak(speech);
 
